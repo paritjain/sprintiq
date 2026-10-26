@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+dist/
+dist-ssr/
+
+# Python cache & testing
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+
+# Environment variables
+.env
+.env.local
+
+# SprintIQ Video & Temporary storage
+backend/data/uploads/*
+!backend/data/uploads/.gitkeep
+backend/data/processed/*
+!backend/data/processed/.gitkeep
+
+# Keep sample demonstration datasets
+backend/sample_data/
+!backend/sample_data/demo_sprint.mp4
+!backend/sample_data/demo_jump.mp4
+
+# Large MediaPipe model weights (instructions provided in README for 1-click download)
+backend/models_weights/*
+!backend/models_weights/.gitkeep
+
+# IDE & OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

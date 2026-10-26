@@ -1,0 +1,12 @@
+{
+  "name": "sprintiq",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SprintIQ — AI-Powered Sports Biomechanics & Performance Analysis",
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "backend": "python -m uvicorn backend.main:app --host 127.0.0.1 --port 8000 --reload",
+    "test:backend": "pytest backend/tests"
+  }
+}
