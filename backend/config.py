@@ -15,7 +15,7 @@ for directory in [UPLOAD_DIR, PROCESSED_DIR, SAMPLES_DIR, MODELS_DIR]:
 
 class Settings(BaseModel):
     HOST: str = os.getenv("HOST", "0.0.0.0")
-    PORT: int = int(os.getenv("PORT", "8000"))
+    PORT: int = int(os.getenv("PORT", "8001"))
     ALLOWED_ORIGINS: list[str] = [
         origin.strip()
         for origin in os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173,http://localhost:3000").split(",")
