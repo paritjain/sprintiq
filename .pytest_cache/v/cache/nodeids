@@ -1,0 +1,10 @@
+[
+  "backend/tests/test_api.py::test_health_endpoint",
+  "backend/tests/test_api.py::test_invalid_video_format_rejection",
+  "backend/tests/test_api.py::test_list_analyses",
+  "backend/tests/test_api.py::test_nonexistent_analysis_404",
+  "backend/tests/test_biomechanics.py::test_rule_engine_observations",
+  "backend/tests/test_biomechanics.py::test_spatial_calibrator_success",
+  "backend/tests/test_biomechanics.py::test_spatial_calibrator_uncalibrated_when_missing_points",
+  "backend/tests/test_biomechanics.py::test_sprint_cadence_calculation"
+]
