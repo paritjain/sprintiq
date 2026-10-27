@@ -1,8 +1,14 @@
 import os
+import sys
+import asyncio
 import uuid
 import shutil
 import cv2
 from pathlib import Path
+
+# Prevent WinError 10054 ConnectionResetError during video streaming on Windows
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 from datetime import datetime
 from typing import Optional, List
 
