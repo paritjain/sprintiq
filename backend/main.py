@@ -46,9 +46,11 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.ALLOWED_ORIGINS,
+    allow_origin_regex=r"https://.*\.netlify\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 # Mount media directory for video playback, thumbnails, and exports
@@ -199,7 +201,20 @@ def run_analysis_pipeline(session_id: str, video_path: Path, sample_interval: in
 
 import json
 
+@app.get("/")
+def root():
+    """Root info endpoint directing to health and documentation."""
+    return {
+        "service": "SprintIQ Sports Biomechanics API",
+        "status": "online",
+        "health_endpoint": "/api/health",
+        "docs": "/docs",
+        "version": "1.0.0",
+    }
+
 @app.get("/api/health", response_model=HealthResponse)
+@app.head("/api/health")
+@app.get("/health", response_model=HealthResponse)
 def get_health():
     """Health status check and model availability inspection."""
     import mediapipe as mp
@@ -429,9 +444,20 @@ def delete_analysis(analysis_id: str):
 
 @app.on_event("startup")
 def startup_event():
-    """Initializes sample demonstration dataset so the app is instantly demonstrable."""
+    """Initializes sample demonstration dataset and ensures model is downloaded."""
     print("Initializing SprintIQ Backend & Sample Datasets...")
     try:
+        # 1. Ensure MediaPipe model weights exist (e.g. for Render or fresh deployments)
+        if not settings.MODEL_PATH.exists():
+            print(f"Downloading MediaPipe pose landmarker model to {settings.MODEL_PATH}...")
+            import urllib.request
+            settings.MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
+            urllib.request.urlretrieve(
+                "https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_full/float16/latest/pose_landmarker_full.task",
+                str(settings.MODEL_PATH)
+            )
+            print("MediaPipe model download complete.")
+
         sprint_sample = SAMPLES_DIR / "demo_sprint.mp4"
         jump_sample = SAMPLES_DIR / "demo_jump.mp4"
         if not sprint_sample.exists():

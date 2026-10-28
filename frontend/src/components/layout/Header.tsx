@@ -70,7 +70,13 @@ export const Header: React.FC<HeaderProps> = ({ onToggleMobileMenu }) => {
         <div
           onClick={checkStatus}
           className="cursor-pointer group flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 hover:border-slate-700 transition-all text-xs"
-          title="Click to refresh connection status"
+          title={
+            error
+              ? `Backend offline at ${ApiService.getBaseUrl()}. Click to reconnect.`
+              : health && !health.model_loaded
+              ? `Backend reachable at ${ApiService.getBaseUrl()}, AI model loading. Click to refresh.`
+              : `Connected to ${ApiService.getBaseUrl()} (MediaPipe active)`
+          }
         >
           {loading ? (
             <span className="flex items-center gap-1.5 text-slate-400">
@@ -81,6 +87,12 @@ export const Header: React.FC<HeaderProps> = ({ onToggleMobileMenu }) => {
             <span className="flex items-center gap-1.5 text-rose-400 font-medium">
               <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
               <span>Backend Offline</span>
+            </span>
+          ) : health && !health.model_loaded ? (
+            <span className="flex items-center gap-1.5 text-amber-400 font-medium">
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+              <span className="hidden sm:inline">Model Loading</span>
+              <span className="sm:hidden">Degraded</span>
             </span>
           ) : (
             <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
